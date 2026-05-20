@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RH Sports &amp; Leisure — Fishing &amp; Camping Equipment</title>
+  <meta name="description" content="RH Sports &amp; Leisure — new and used fishing and camping equipment. Course, sea and game fishing gear plus our community Swap Shop.">
+
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+
+      <!-- Logo / Branding -->
+      <div class="logo-wrap">
+        <div class="logo-name">RH Sports <span>&amp;</span> Leisure</div>
+        <div class="logo-tagline">Camping &amp; Fishing Equipment — New &amp; Used</div>
+      </div>
+
+      <!-- Search -->
+      <div class="header-search">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+             aria-hidden="true">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input
+          type="search"
+          id="search-input"
+          placeholder="Search products…"
+          aria-label="Search products by name or description"
+          autocomplete="off"
+        >
+      </div>
+
+      <!-- Cart Trigger -->
+      <button class="cart-trigger" id="cart-trigger" aria-label="View shopping cart">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        <span class="cart-badge" id="cart-badge">0</span>
+      </button>
+
+    </div>
+  </header>
+
+  <!-- ===== STATS STRIP ===== -->
+  <div class="stats-strip" aria-label="Site statistics">
+    <!-- Populated by app.js -->
+  </div>
+
+  <!-- ===== CATEGORY NAV ===== -->
+  <nav class="cat-nav" role="navigation" aria-label="Product categories">
+    <div class="cat-nav-inner" id="cat-nav-inner">
+      <!-- Populated by app.js -->
+    </div>
+  </nav>
+
+  <!-- ===== CART SIDEBAR ===== -->
+  <div class="cart-overlay" id="cart-overlay"></div>
+  <aside class="cart-sidebar" id="cart-sidebar" aria-labelledby="cart-title">
+    <div class="cart-header">
+      <h2 id="cart-title">Your Basket</h2>
+      <button class="cart-close" id="cart-close" aria-label="Close cart">&times;</button>
+    </div>
+    <div class="cart-items" id="cart-items">
+      <!-- Populated by app.js -->
+      <p class="empty-cart-msg">Your basket is currently empty.</p>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total-row">
+        <span>Total:</span>
+        <span id="cart-total">£0.00</span>
+      </div>
+      <button class="btn-checkout stripe" id="stripe-checkout">
+        Checkout with Card (Stripe)
+      </button>
+      <div id="paypal-button-container"></div>
+    </div>
+  </aside>
+
+  <!-- ===== SUB-CATEGORY FILTER ===== -->
+  <div class="subcat-bar hidden" id="subcat-bar" role="navigation" aria-label="Sub-category filter">
+    <div class="subcat-inner" id="subcat-inner">
+      <!-- Populated by app.js -->
+    </div>
+  </div>
+
+  <!-- ===== PRODUCTS ===== -->
+  <main class="main-content" id="products-section">
+    <div class="products-header">
+      <h2 class="products-title" id="products-title">All Products</h2>
+      <span class="products-count" id="product-count" aria-live="polite"></span>
+    </div>
+
+    <div class="product-grid" id="product-grid" role="list" aria-label="Products">
+      <!-- Populated by app.js -->
+    </div>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo-name">RH Sports <span>&amp;</span> Leisure</div>
+        <p>Your one-stop UK shop for fishing and camping gear. New and second-hand equipment for course, sea and game fishing. Proud to serve anglers across the UK.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="#" data-nav="Course">Course Fishing</a></li>
+          <li><a href="#" data-nav="Sea">Sea Fishing</a></li>
+          <li><a href="#" data-nav="Game">Game Fishing</a></li>
+          <li><a href="#" data-nav="Swap Shop">Swap Shop</a></li>
+          <li><a href="#" data-nav="Camping">Camping</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Info</h4>
+        <ul>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Delivery Info</a></li>
+          <li><a href="#">Returns Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 RH Sports &amp; Leisure. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts loaded at bottom for performance -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <script src="https://js.stripe.com/v3/"></script>
+  <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=GBP"></script>
+  
+  <!-- ===== App Script ===== -->
+  <script src="js/app.js"></script>
+
+  <!-- Footer nav links -->
+  <script>
+    document.querySelectorAll('[data-nav]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        var target = this.dataset.nav;
+        var btn = document.querySelector('.cat-btn[data-page="' + target + '"]');
+        if (btn) {
+          btn.click();
+          document.getElementById('products-section').scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Swap Shop hero link
+    var swapLink = document.getElementById('swap-hero-link');
+    if (swapLink) {
+      swapLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        var btn = document.querySelector('.cat-btn[data-page="Swap Shop"]');
+        if (btn) btn.click();
+        document.getElementById('products-section').scrollIntoView({ behavior: 'smooth' });
+      });
+    }
+  </script>
+
+</body>
+</html>
