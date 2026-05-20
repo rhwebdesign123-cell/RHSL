@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: rhsl-site
+    runtime: static
+    buildCommand: echo "No build needed"
+    publishDir: .
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
