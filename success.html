@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Successful — RH Sports & Leisure</title>
+  <meta name="description" content="Your payment was successful. Thank you for your order from RH Sports & Leisure.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+
+  <style>
+    .success-page {
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    .success-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      padding: 48px 40px;
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+    }
+    .success-icon {
+      width: 72px;
+      height: 72px;
+      background: #10b981;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+    }
+    .success-icon svg {
+      width: 36px;
+      height: 36px;
+      stroke: #fff;
+    }
+    .success-card h1 {
+      font-size: 1.6rem;
+      color: #1e293b;
+      margin: 0 0 12px;
+    }
+    .success-card p {
+      color: #64748b;
+      line-height: 1.6;
+      margin: 0 0 32px;
+    }
+    .success-card .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #2563eb;
+      color: #fff;
+      padding: 14px 32px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: background 0.2s;
+    }
+    .success-card .btn-primary:hover {
+      background: #1d4ed8;
+    }
+    .order-note {
+      margin-top: 20px;
+      font-size: 0.85rem;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header (minimal) -->
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+      <div class="logo-wrap">
+        <div class="logo-name">RH Sports <span>&</span> Leisure</div>
+        <div class="logo-tagline">Camping & Fishing Equipment — New & Used</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="success-page">
+    <div class="success-card">
+      <div class="success-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </div>
+      <h1>Payment Successful!</h1>
+      <p>Thank you for your order from RH Sports & Leisure.<br>
+      We'll process your order and be in touch shortly regarding delivery.</p>
+      <a href="/" class="btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        Return to Shop
+      </a>
+      <p class="order-note">A confirmation email will be sent to the email address you provided at checkout.</p>
+    </div>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo-name">RH Sports <span>&</span> Leisure</div>
+        <p>Your one-stop UK shop for fishing and camping gear.</p>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 RH Sports & Leisure. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
