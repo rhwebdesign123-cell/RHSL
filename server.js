@@ -38,6 +38,8 @@ app.post('/create-checkout-session', async (req, res) => {
       mode: 'payment',
       success_url: `${BASE_URL}/success.html`,
       cancel_url: `${BASE_URL}/`,
+      shipping_address_collection: {
+    allowed_countries: ['GB'],
     });
     
     res.json({ url: session.url });
