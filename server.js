@@ -53,6 +53,26 @@ app.post('/create-checkout-session', async (req, res) => {
 // Static files (AFTER API routes so they don't interfere)
 app.use(express.static('.'));
 
+// Endpoint to get bank details (secured)
+app.get('/api/bank-details', (req, res) => {
+    // Optional: Add basic security - check if cart exists or request is from your frontend
+    const cartItems = req.query.cart ? JSON.parse(req.query.cart) : [];
+    
+    if (cartItems.length === 0) {
+        return res.status(400).json({ error: 'Cart is empty' });
+    }
+    
+    // Return bank details from environment variables
+    res.json({
+        bankName: process.env.BANK_NAME,
+        accountName: process.env.BANK_ACCOUNT_NAME,
+        sortCode: process.env.BANK_SORT_CODE,
+        accountNumber: process.env.BANK_ACCOUNT_NUMBER,
+        iban: process.env.BANK_IBAN || null,
+        reference: `RHSL-${Date.now()}` // Generate unique reference
+    });
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
