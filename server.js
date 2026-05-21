@@ -80,10 +80,10 @@ app.get('/api/bank-details', (req, res) => {
     
     // Return bank details from environment variables
     res.json({
-        bankName: process.env.BANK_NAME || 'Your Bank',
-        accountName: process.env.BANK_ACCOUNT_NAME || 'RH Sports & Leisure',
-        sortCode: process.env.BANK_SORT_CODE || '00-00-00',
-        accountNumber: process.env.BANK_ACCOUNT_NUMBER || '12345678',
+        bankName: process.env.BANK_NAME || 'HSBC',
+        accountName: process.env.BANK_ACCOUNT_NAME || 'R Hetherington',
+        sortCode: process.env.BANK_SORT_CODE || '40-29-02',
+        accountNumber: process.env.BANK_ACCOUNT_NUMBER || '91211463',
         iban: process.env.BANK_IBAN || null,
         reference: `RHSL-${Date.now()}`
     });
