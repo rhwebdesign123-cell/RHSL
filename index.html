@@ -88,6 +88,114 @@
         Checkout with Card (Stripe)
       </button>
       <div id="paypal-button-container" style="display: none;"></div>
+
+      <!-- Bank Transfer Section - Secure (Details from Backend) -->
+<div style="margin-top: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
+  <h3 style="margin-top: 0;">🏦 Bank Transfer</h3>
+  
+  <!-- Delivery Address Form -->
+  <form id="bank-transfer-form">
+    <h4>Delivery Address</h4>
+    
+    <label for="bt-name">Full Name:</label>
+    <input type="text" id="bt-name" required style="width: 100%; padding: 8px; margin-bottom: 10px;">
+    
+    <label for="bt-address">Street Address:</label>
+    <input type="text" id="bt-address" required style="width: 100%; padding: 8px; margin-bottom: 10px;">
+    
+    <label for="bt-city">City/Town:</label>
+    <input type="text" id="bt-city" required style="width: 100%; padding: 8px; margin-bottom: 10px;">
+    
+    <label for="bt-postcode">Postcode:</label>
+    <input type="text" id="bt-postcode" required style="width: 100%; padding: 8px; margin-bottom: 10px;">
+    
+    <label for="bt-email">Email Address:</label>
+    <input type="email" id="bt-email" required style="width: 100%; padding: 8px; margin-bottom: 10px;">
+    
+    <label for="bt-phone">Phone Number:</label>
+    <input type="tel" id="bt-phone" required style="width: 100%; padding: 8px; margin-bottom: 10px;">
+    
+    <button type="button" onclick="getBankDetails()" style="background-color: #4CAF50; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer;">
+      Proceed to Bank Details
+    </button>
+  </form>
+  
+  <!-- Bank Details (Hidden until fetched) -->
+  <div id="bank-details" style="display: none; margin-top: 20px; padding: 15px; background-color: #e8f5e9; border-radius: 8px;">
+    <h4>✅ Bank Transfer Details</h4>
+    <p>Please send payment to:</p>
+    <div id="bank-details-content"></div>
+    <p>⚠️ We will ship your order once payment is confirmed (1-2 business days)</p>
+  </div>
+</div>
+
+<script>
+async function getBankDetails() {
+  // Get form values
+  const name = document.getElementById('bt-name').value;
+  const address = document.getElementById('bt-address').value;
+  const city = document.getElementById('bt-city').value;
+  const postcode = document.getElementById('bt-postcode').value;
+  const email = document.getElementById('bt-email').value;
+  const phone = document.getElementById('bt-phone').value;
+  
+  // Validate
+  if (!name || !address || !city || !postcode || !email || !phone) {
+    alert('Please fill in all fields');
+    return;
+  }
+  
+  // Get cart from localStorage
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  
+  if (cart.length === 0) {
+    alert('Your cart is empty');
+    return;
+  }
+  
+  // Save order data
+  const orderData = { name, address, city, postcode, email, phone, cart, date: new Date().toISOString() };
+  localStorage.setItem('pending-order', JSON.stringify(orderData));
+  
+  try {
+    // Fetch bank details from backend (with cart as security)
+    const response = await fetch(`/api/bank-details?cart=${encodeURIComponent(JSON.stringify(cart))}`);
+    const bank = await response.json();
+    
+    if (response.ok) {
+      // Display bank details
+      document.getElementById('bank-details-content').innerHTML = `
+        <ul>
+          <li><strong>Bank:</strong> ${bank.bankName}</li>
+          <li><strong>Account Name:</strong> ${bank.accountName}</li>
+          <li><strong>Sort Code:</strong> ${bank.sortCode}</li>
+          <li><strong>Account Number:</strong> ${bank.accountNumber}</li>
+          ${bank.iban ? `<li><strong>IBAN:</strong> ${bank.iban}</li>` : ''}
+        </ul>
+        <p><strong>Reference:</strong> ${bank.reference}</p>
+        <p>📧 We'll send confirmation to: <strong>${email}</strong></p>
+      `;
+      
+      // Hide form, show bank details
+      document.getElementById('bank-transfer-form').style.display = 'none';
+      document.getElementById('bank-details').style.display = 'block';
+      
+      // Optional: Send email notification to you
+      fetch('/api/notify-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderData)
+      }).catch(console.error);
+      
+    } else {
+      alert(bank.error || 'Unable to get bank details. Please try again.');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('Something went wrong. Please try again.');
+  }
+}
+</script>      
     </div>
   </aside>
 
