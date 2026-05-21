@@ -50,6 +50,16 @@ app.post('/create-checkout-session', async (req, res) => {
   }
 });
 
+app.post('/api/bank-order', (req, res) => {
+  const order = req.body;
+  console.log('📦 New Bank Transfer Order:', order);
+  
+  // Here you could email yourself using nodemailer
+  // For now, just log it
+  
+  res.json({ received: true });
+});
+
 // Static files (AFTER API routes so they don't interfere)
 app.use(express.static('.'));
 
