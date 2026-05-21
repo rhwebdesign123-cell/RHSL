@@ -123,9 +123,36 @@
   const confirmBtn = document.getElementById('bt-confirm-btn');
   const cancelBtn = document.getElementById('bt-cancel-btn');
   
+  // Cart key from app.js
+  const CART_KEY = 'rh_cart';
+  
+  // Helper to get cart from localStorage
+  function getCart() {
+    const saved = localStorage.getItem(CART_KEY);
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch(e) {
+        return [];
+      }
+    }
+    return [];
+  }
+  
+  // Helper to get total
+  function getCartTotal() {
+    const cart = getCart();
+    return cart.reduce((sum, item) => sum + ((item.price || 0) * (item.qty || 0)), 0);
+  }
+  
   // Open modal
   if (openBtn) {
     openBtn.addEventListener('click', () => {
+      const cart = getCart();
+      if (cart.length === 0) {
+        alert('Your basket is empty. Please add items first.');
+        return;
+      }
       modal.style.display = 'flex';
     });
   }
@@ -156,28 +183,14 @@
         return;
       }
       
-      // Get cart from localStorage (this is the key fix)
-      let cart = [];
-      const cartRaw = localStorage.getItem('cart');
-      console.log('Raw cart data:', cartRaw);
+      // Get cart from localStorage using correct key
+      const cart = getCart();
+      const total = getCartTotal();
       
-      if (cartRaw) {
-        try {
-          cart = JSON.parse(cartRaw);
-        } catch(e) {
-          console.error('Failed to parse cart:', e);
-          cart = [];
-        }
-      }
-      
-      // Get total from the page
-      const totalEl = document.getElementById('cart-total');
-      const total = totalEl ? totalEl.innerText : '£0.00';
-      
-      console.log('Cart items count:', cart.length);
+      console.log('Cart items:', cart);
       console.log('Total:', total);
       
-      if (!cart || cart.length === 0) {
+      if (cart.length === 0) {
         alert('Your cart is empty. Please add items before checking out.');
         return;
       }
@@ -186,7 +199,7 @@
       const orderData = {
         customer: { fullname, address, city, postcode, email, phone },
         cart: cart,
-        total: total,
+        total: '£' + total.toFixed(2),
         date: new Date().toISOString(),
         orderId: 'RHSL-' + Date.now()
       };
@@ -194,7 +207,7 @@
       // Save to localStorage as backup
       localStorage.setItem('pendingBankOrder', JSON.stringify(orderData));
       
-      // Try to send to backend (optional - won't break if fails)
+      // Try to send to backend (optional)
       try {
         await fetch('/api/bank-order', {
           method: 'POST',
@@ -203,7 +216,7 @@
         });
         console.log('Order sent to backend');
       } catch(e) {
-        console.log('Backend not available, but order saved locally');
+        console.log('Backend not available, order saved locally');
       }
       
       // Show bank details in modal
@@ -218,7 +231,7 @@
           <li><strong>Account Number:</strong> 12345678</li>
         </ul>
         <p><strong>Reference:</strong> ${orderData.orderId}</p>
-        <p><strong>Amount:</strong> ${total}</p>
+        <p><strong>Amount:</strong> £${total.toFixed(2)}</p>
         <p>⚠️ We'll ship your order once payment clears (1-2 days).</p>
         <p>📧 We'll contact you at <strong>${email}</strong></p>
         <button id="bt-close-modal" style="background-color: #4CAF50; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; width: 100%; margin-top: 10px;">
@@ -228,9 +241,10 @@
       
       // Add close button handler
       document.getElementById('bt-close-modal').addEventListener('click', () => {
-        // Clear cart
-        localStorage.removeItem('cart');
-        localStorage.removeItem('cartTotal');
+        // Clear cart using the same key as app.js
+        localStorage.removeItem(CART_KEY);
+        // Trigger cart update by dispatching an event
+        window.dispatchEvent(new Event('storage'));
         // Reload page to refresh cart display
         window.location.reload();
       });
