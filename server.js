@@ -59,7 +59,7 @@ app.post('/api/send-order-email', async (req, res) => {
     `).join('');
     
     await resend.emails.send({
-      from: `RH Sports <orders@${process.env.RESEND_DOMAIN || 'rhwebdesign123.co.uk'}>`,
+      from: `RH Sports <anything@mueyan.resend.app>`,
       to: [process.env.ADMIN_EMAIL || 'rhwebdesign123@gmail.com'],
       subject: `📦 NEW ORDER: ${order.orderId} - ${order.total}`,
       html: `
