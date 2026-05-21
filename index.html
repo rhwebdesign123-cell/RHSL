@@ -6,7 +6,6 @@
   <title>RH Sports &amp; Leisure — Fishing &amp; Camping Equipment</title>
   <meta name="description" content="RH Sports &amp; Leisure — new and used fishing and camping equipment. Course, sea and game fishing gear plus our community Swap Shop.">
 
-
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,30 +19,18 @@
   <!-- ===== HEADER ===== -->
   <header class="site-header" role="banner">
     <div class="header-inner">
-
-      <!-- Logo / Branding -->
       <div class="logo-wrap">
         <div class="logo-name">RH Sports <span>&amp;</span> Leisure</div>
         <div class="logo-tagline">Camping &amp; Fishing Equipment — New &amp; Used</div>
       </div>
 
-      <!-- Search -->
       <div class="header-search">
-        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-             aria-hidden="true">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
         </svg>
-        <input
-          type="search"
-          id="search-input"
-          placeholder="Search products…"
-          aria-label="Search products by name or description"
-          autocomplete="off"
-        >
+        <input type="search" id="search-input" placeholder="Search products…" aria-label="Search products by name or description" autocomplete="off">
       </div>
 
-      <!-- Cart Trigger -->
       <button class="cart-trigger" id="cart-trigger" aria-label="View shopping cart">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="9" cy="21" r="1"></circle>
@@ -52,20 +39,15 @@
         </svg>
         <span class="cart-badge" id="cart-badge">0</span>
       </button>
-
     </div>
   </header>
 
   <!-- ===== STATS STRIP ===== -->
-  <div class="stats-strip" aria-label="Site statistics">
-    <!-- Populated by app.js -->
-  </div>
+  <div class="stats-strip" aria-label="Site statistics"></div>
 
   <!-- ===== CATEGORY NAV ===== -->
   <nav class="cat-nav" role="navigation" aria-label="Product categories">
-    <div class="cat-nav-inner" id="cat-nav-inner">
-      <!-- Populated by app.js -->
-    </div>
+    <div class="cat-nav-inner" id="cat-nav-inner"></div>
   </nav>
 
   <!-- ===== CART SIDEBAR ===== -->
@@ -76,7 +58,6 @@
       <button class="cart-close" id="cart-close" aria-label="Close cart">&times;</button>
     </div>
     <div class="cart-items" id="cart-items">
-      <!-- Populated by app.js -->
       <p class="empty-cart-msg">Your basket is currently empty.</p>
     </div>
     <div class="cart-footer">
@@ -84,249 +65,37 @@
         <span>Total:</span>
         <span id="cart-total">£0.00</span>
       </div>
-      <button class="btn-checkout stripe" id="stripe-checkout">
-        Checkout with Card (Stripe)
-      </button>
+      <button class="btn-checkout stripe" id="stripe-checkout">Checkout with Card (Stripe)</button>
       <div id="paypal-button-container" style="display: none;"></div>
-<!-- Bank Transfer Button -->
-<button class="btn-banktransfer" id="bank-transfer-btn" style="margin-top: 10px; width: 100%; background-color: #6c757d; color: white; padding: 12px; border: none; border-radius: 5px; cursor: pointer;">
-  🏦 Pay by Bank Transfer
-</button>
-
-<!-- Bank Transfer Modal (hidden by default) -->
-<div id="bank-transfer-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center;">
-  <div style="background: white; max-width: 500px; margin: 50px auto; padding: 20px; border-radius: 10px; max-height: 80vh; overflow-y: auto;">
-    <h3>🏦 Bank Transfer</h3>
-    <p>Please provide your delivery details:</p>
-    
-    <input type="text" id="bt-fullname" placeholder="Full Name" required style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
-    <input type="text" id="bt-address" placeholder="Street Address" required style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
-    <input type="text" id="bt-city" placeholder="City/Town" required style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
-    <input type="text" id="bt-postcode" placeholder="Postcode" required style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
-    <input type="email" id="bt-email" placeholder="Email Address" required style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
-    <input type="tel" id="bt-phone" placeholder="Phone Number" required style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
-    
-    <button type="button" id="bt-confirm-btn" style="background-color: #4CAF50; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; width: 100%;">
-      Confirm & Get Bank Details
-    </button>
-    <button type="button" id="bt-cancel-btn" style="margin-top: 8px; background-color: #ccc; color: black; padding: 8px; border: none; border-radius: 5px; cursor: pointer; width: 100%;">
-      Cancel
-    </button>
-  </div>
-</div>
-
-<script>
-// Bank Transfer Modal Logic
-(function() {
-  const modal = document.getElementById('bank-transfer-modal');
-  const openBtn = document.getElementById('bank-transfer-btn');
-  const confirmBtn = document.getElementById('bt-confirm-btn');
-  const cancelBtn = document.getElementById('bt-cancel-btn');
-  
-  // Cart key from app.js
-  const CART_KEY = 'rh_cart';
-  
-  // Helper to get cart from localStorage
-  function getCart() {
-    const saved = localStorage.getItem(CART_KEY);
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch(e) {
-        return [];
-      }
-    }
-    return [];
-  }
-  
-  // Helper to get total
-  function getCartTotal() {
-    const cart = getCart();
-    return cart.reduce((sum, item) => sum + ((item.price || 0) * (item.qty || 0)), 0);
-  }
-  
-  // Open modal
-  if (openBtn) {
-    openBtn.addEventListener('click', () => {
-      const cart = getCart();
-      if (cart.length === 0) {
-        alert('Your basket is empty. Please add items first.');
-        return;
-      }
-      modal.style.display = 'flex';
-    });
-  }
-  
-  // Close modal
-  function closeModal() {
-    modal.style.display = 'none';
-  }
-  
-  if (cancelBtn) {
-    cancelBtn.addEventListener('click', closeModal);
-  }
-  
-  // Process bank transfer
-  if (confirmBtn) {
-    confirmBtn.addEventListener('click', async () => {
-      // Get form values
-      const fullname = document.getElementById('bt-fullname').value.trim();
-      const address = document.getElementById('bt-address').value.trim();
-      const city = document.getElementById('bt-city').value.trim();
-      const postcode = document.getElementById('bt-postcode').value.trim();
-      const email = document.getElementById('bt-email').value.trim();
-      const phone = document.getElementById('bt-phone').value.trim();
       
-      // Validate
-      if (!fullname || !address || !city || !postcode || !email || !phone) {
-        alert('Please fill in all fields');
-        return;
-      }
-      
-      // Get cart from localStorage using correct key
-      const cart = getCart();
-      const total = getCartTotal();
-      
-      console.log('Cart items:', cart);
-      console.log('Total:', total);
-      
-      if (cart.length === 0) {
-        alert('Your cart is empty. Please add items before checking out.');
-        return;
-      }
-      
-      // Create order
-      const orderData = {
-        customer: { fullname, address, city, postcode, email, phone },
-        cart: cart,
-        total: '£' + total.toFixed(2),
-        date: new Date().toISOString(),
-        orderId: 'RHSL-' + Date.now()
-      };
-      
-      // Save to localStorage as backup
-      localStorage.setItem('pendingBankOrder', JSON.stringify(orderData));
-      
-      // Try to send to backend (optional)
-      try {
-        await fetch('/api/bank-order', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(orderData)
-        });
-        console.log('Order sent to backend');
-      } catch(e) {
-        console.log('Backend not available, order saved locally');
-      }
-      
-      // Show bank details in modal
-      const modalDiv = modal.querySelector('div');
-      modalDiv.innerHTML = `
-        <h3>✅ Bank Transfer Details</h3>
-        <p>Thanks ${fullname}! Please send payment to:</p>
-        <ul style="margin: 15px 0;">
-          <li><strong>Bank:</strong> [HSBC]</li>
-          <li><strong>Account Name:</strong> R Hetherington</li>
-          <li><strong>Sort Code:</strong> 40-29-02</li>
-          <li><strong>Account Number:</strong> 91211463</li>
-        </ul>
-        <p><strong>Reference:</strong> ${orderData.orderId}</p>
-        <p><strong>Amount:</strong> £${total.toFixed(2)}</p>
-        <p>⚠️ We'll ship your order once payment clears (1-2 days).</p>
-        <p>📧 We'll contact you at <strong>${email}</strong></p>
-        <button id="bt-close-modal" style="background-color: #4CAF50; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; width: 100%; margin-top: 10px;">
-          Close & Clear Cart
-        </button>
-      `;
-      
-      // Add close button handler
-      document.getElementById('bt-close-modal').addEventListener('click', () => {
-        // Clear cart using the same key as app.js
-        localStorage.removeItem(CART_KEY);
-        // Trigger cart update by dispatching an event
-        window.dispatchEvent(new Event('storage'));
-        // Reload page to refresh cart display
-        window.location.reload();
-      });
-    });
-  }
-})();
-</script>
-<script>
-async function getBankDetails() {
-  // Get form values
-  const name = document.getElementById('bt-name').value;
-  const address = document.getElementById('bt-address').value;
-  const city = document.getElementById('bt-city').value;
-  const postcode = document.getElementById('bt-postcode').value;
-  const email = document.getElementById('bt-email').value;
-  const phone = document.getElementById('bt-phone').value;
-  
-  // Validate
-  if (!name || !address || !city || !postcode || !email || !phone) {
-    alert('Please fill in all fields');
-    return;
-  }
-  
-  // Get cart from localStorage
-  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-  
-  if (cart.length === 0) {
-    alert('Your cart is empty');
-    return;
-  }
-  
-  // Save order data
-  const orderData = { name, address, city, postcode, email, phone, cart, date: new Date().toISOString() };
-  localStorage.setItem('pending-order', JSON.stringify(orderData));
-  
-  try {
-    // Fetch bank details from backend (with cart as security)
-    const response = await fetch(`/api/bank-details?cart=${encodeURIComponent(JSON.stringify(cart))}`);
-    const bank = await response.json();
-    
-    if (response.ok) {
-      // Display bank details
-      document.getElementById('bank-details-content').innerHTML = `
-        <ul>
-          <li><strong>Bank:</strong> ${bank.bankName}</li>
-          <li><strong>Account Name:</strong> ${bank.accountName}</li>
-          <li><strong>Sort Code:</strong> ${bank.sortCode}</li>
-          <li><strong>Account Number:</strong> ${bank.accountNumber}</li>
-          ${bank.iban ? `<li><strong>IBAN:</strong> ${bank.iban}</li>` : ''}
-        </ul>
-        <p><strong>Reference:</strong> ${bank.reference}</p>
-        <p>📧 We'll send confirmation to: <strong>${email}</strong></p>
-      `;
-      
-      // Hide form, show bank details
-      document.getElementById('bank-transfer-form').style.display = 'none';
-      document.getElementById('bank-details').style.display = 'block';
-      
-      // Optional: Send email notification to you
-      fetch('/api/notify-order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(orderData)
-      }).catch(console.error);
-      
-    } else {
-      alert(bank.error || 'Unable to get bank details. Please try again.');
-    }
-  } catch (error) {
-    console.error('Error:', error);
-    alert('Something went wrong. Please try again.');
-  }
-}
-</script>      
+      <!-- Bank Transfer Button -->
+      <button class="btn-banktransfer" id="bank-transfer-btn" style="margin-top: 10px; width: 100%; background-color: #6c757d; color: white; padding: 12px; border: none; border-radius: 5px; cursor: pointer;">
+        🏦 Pay by Bank Transfer
+      </button>
     </div>
   </aside>
 
+  <!-- ===== BANK TRANSFER MODAL ===== -->
+  <div id="bank-transfer-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center;">
+    <div style="background: white; max-width: 500px; margin: 50px auto; padding: 20px; border-radius: 10px; max-height: 80vh; overflow-y: auto;">
+      <h3>🏦 Bank Transfer</h3>
+      <p>Please provide your delivery details:</p>
+      
+      <input type="text" id="bt-fullname" placeholder="Full Name" required style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
+      <input type="text" id="bt-address" placeholder="Street Address" required style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
+      <input type="text" id="bt-city" placeholder="City/Town" required style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
+      <input type="text" id="bt-postcode" placeholder="Postcode" required style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
+      <input type="email" id="bt-email" placeholder="Email Address" required style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
+      <input type="tel" id="bt-phone" placeholder="Phone Number" required style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
+      
+      <button type="button" id="bt-confirm-btn" style="background-color: #4CAF50; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; width: 100%;">Confirm & Get Bank Details</button>
+      <button type="button" id="bt-cancel-btn" style="margin-top: 8px; background-color: #ccc; color: black; padding: 8px; border: none; border-radius: 5px; cursor: pointer; width: 100%;">Cancel</button>
+    </div>
+  </div>
+
   <!-- ===== SUB-CATEGORY FILTER ===== -->
   <div class="subcat-bar hidden" id="subcat-bar" role="navigation" aria-label="Sub-category filter">
-    <div class="subcat-inner" id="subcat-inner">
-      <!-- Populated by app.js -->
-    </div>
+    <div class="subcat-inner" id="subcat-inner"></div>
   </div>
 
   <!-- ===== PRODUCTS ===== -->
@@ -335,10 +104,7 @@ async function getBankDetails() {
       <h2 class="products-title" id="products-title">All Products</h2>
       <span class="products-count" id="product-count" aria-live="polite"></span>
     </div>
-
-    <div class="product-grid" id="product-grid" role="list" aria-label="Products">
-      <!-- Populated by app.js -->
-    </div>
+    <div class="product-grid" id="product-grid" role="list" aria-label="Products"></div>
   </main>
 
   <!-- ===== FOOTER ===== -->
@@ -372,13 +138,116 @@ async function getBankDetails() {
     </div>
   </footer>
 
-  <!-- Scripts loaded at bottom for performance -->
+  <!-- Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
   <script src="https://js.stripe.com/v3/"></script>
   <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=GBP"></script>
-  
-  <!-- ===== App Script ===== -->
   <script src="js/app.js"></script>
+
+  <!-- Bank Transfer Modal Logic -->
+  <script>
+  (function() {
+    const modal = document.getElementById('bank-transfer-modal');
+    const openBtn = document.getElementById('bank-transfer-btn');
+    const confirmBtn = document.getElementById('bt-confirm-btn');
+    const cancelBtn = document.getElementById('bt-cancel-btn');
+    const CART_KEY = 'rh_cart';
+    
+    function getCart() {
+      const saved = localStorage.getItem(CART_KEY);
+      return saved ? JSON.parse(saved) : [];
+    }
+    
+    function getCartTotal() {
+      const cart = getCart();
+      return cart.reduce((sum, item) => sum + ((item.price || 0) * (item.qty || 0)), 0);
+    }
+    
+    if (openBtn) {
+      openBtn.addEventListener('click', () => {
+        if (getCart().length === 0) {
+          alert('Your basket is empty. Please add items first.');
+          return;
+        }
+        modal.style.display = 'flex';
+      });
+    }
+    
+    function closeModal() {
+      modal.style.display = 'none';
+    }
+    
+    if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
+    
+    if (confirmBtn) {
+      confirmBtn.addEventListener('click', async () => {
+        const fullname = document.getElementById('bt-fullname').value.trim();
+        const address = document.getElementById('bt-address').value.trim();
+        const city = document.getElementById('bt-city').value.trim();
+        const postcode = document.getElementById('bt-postcode').value.trim();
+        const email = document.getElementById('bt-email').value.trim();
+        const phone = document.getElementById('bt-phone').value.trim();
+        
+        if (!fullname || !address || !city || !postcode || !email || !phone) {
+          alert('Please fill in all fields');
+          return;
+        }
+        
+        const cart = getCart();
+        const total = getCartTotal();
+        
+        if (cart.length === 0) {
+          alert('Your cart is empty');
+          return;
+        }
+        
+        const orderData = {
+          customer: { fullname, address, city, postcode, email, phone },
+          cart: cart,
+          total: '£' + total.toFixed(2),
+          date: new Date().toISOString(),
+          orderId: 'RHSL-' + Date.now()
+        };
+        
+        localStorage.setItem('pendingBankOrder', JSON.stringify(orderData));
+        
+        // Send email notification
+        try {
+          await fetch('/api/send-order-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ order: orderData })
+          });
+          console.log('Email notification sent');
+        } catch(e) {
+          console.log('Email send failed:', e);
+        }
+        
+        const modalDiv = modal.querySelector('div');
+        modalDiv.innerHTML = `
+          <h3>✅ Bank Transfer Details</h3>
+          <p>Thanks ${fullname}! Please send payment to:</p>
+          <ul style="margin: 15px 0;">
+            <li><strong>Bank:</strong> HSBC</li>
+            <li><strong>Account Name:</strong> R Hetherington</li>
+            <li><strong>Sort Code:</strong> 40-29-02</li>
+            <li><strong>Account Number:</strong> 91211463</li>
+          </ul>
+          <p><strong>Reference:</strong> ${orderData.orderId}</p>
+          <p><strong>Amount:</strong> £${total.toFixed(2)}</p>
+          <p>⚠️ We'll ship your order once payment clears (1-2 days).</p>
+          <p>📧 Confirmation sent to <strong>${email}</strong></p>
+          <button id="bt-close-modal" style="background-color: #4CAF50; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; width: 100%; margin-top: 10px;">Close & Clear Cart</button>
+        `;
+        
+        document.getElementById('bt-close-modal').addEventListener('click', () => {
+          localStorage.removeItem(CART_KEY);
+          window.location.reload();
+        });
+      });
+    }
+  })();
+  </script>
 
   <!-- Footer nav links -->
   <script>
@@ -393,18 +262,6 @@ async function getBankDetails() {
         }
       });
     });
-
-    // Swap Shop hero link
-    var swapLink = document.getElementById('swap-hero-link');
-    if (swapLink) {
-      swapLink.addEventListener('click', function(e) {
-        e.preventDefault();
-        var btn = document.querySelector('.cat-btn[data-page="Swap Shop"]');
-        if (btn) btn.click();
-        document.getElementById('products-section').scrollIntoView({ behavior: 'smooth' });
-      });
-    }
   </script>
-
 </body>
 </html>
