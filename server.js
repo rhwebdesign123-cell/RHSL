@@ -16,7 +16,7 @@ console.log('Stripe key loaded:', process.env.STRIPE_SECRET_KEY ? '✓ Yes' : '�
 // Determine base URL from environment or default
 const BASE_URL = process.env.BASE_URL || `http://localhost:${process.env.PORT || 3000}`;
 
-// Checkout endpoint (must be before static middleware to avoid 404)
+// ===== STRIPE CHECKOUT ENDPOINT =====
 app.post('/create-checkout-session', async (req, res) => {
   try {
     const cartItems = req.body.cartItems;
@@ -50,20 +50,18 @@ app.post('/create-checkout-session', async (req, res) => {
   }
 });
 
+// ===== BANK ORDER NOTIFICATION ENDPOINT =====
 app.post('/api/bank-order', (req, res) => {
   const order = req.body;
   console.log('📦 New Bank Transfer Order:', order);
-  
-  // Here you could email yourself using nodemailer
-  // For now, just log it
+  console.log('Customer:', order.customer);
+  console.log('Items:', order.cart);
+  console.log('Total:', order.total);
   
   res.json({ received: true });
 });
 
-// Static files (AFTER API routes so they don't interfere)
-app.use(express.static('.'));
-
-// Endpoint to get bank details (secured)
+// ===== BANK DETAILS ENDPOINT (MOVED BEFORE STATIC FILES) =====
 app.get('/api/bank-details', (req, res) => {
     // Optional: Add basic security - check if cart exists or request is from your frontend
     const cartItems = req.query.cart ? JSON.parse(req.query.cart) : [];
@@ -74,15 +72,19 @@ app.get('/api/bank-details', (req, res) => {
     
     // Return bank details from environment variables
     res.json({
-        bankName: process.env.BANK_NAME,
-        accountName: process.env.BANK_ACCOUNT_NAME,
-        sortCode: process.env.BANK_SORT_CODE,
-        accountNumber: process.env.BANK_ACCOUNT_NUMBER,
+        bankName: process.env.BANK_NAME || 'Your Bank',
+        accountName: process.env.BANK_ACCOUNT_NAME || 'RH Sports & Leisure',
+        sortCode: process.env.BANK_SORT_CODE || '00-00-00',
+        accountNumber: process.env.BANK_ACCOUNT_NUMBER || '12345678',
         iban: process.env.BANK_IBAN || null,
-        reference: `RHSL-${Date.now()}` // Generate unique reference
+        reference: `RHSL-${Date.now()}`
     });
 });
 
+// ===== STATIC FILES (ALWAYS LAST) =====
+app.use(express.static('.'));
+
+// ===== START SERVER =====
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
