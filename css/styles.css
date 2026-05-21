@@ -915,3 +915,133 @@ button { cursor: pointer; font-family: inherit; }
 #paypal-button-container {
   margin-top: 12px;
 }
+/* ===== BANK TRANSFER BUTTON ===== */
+.btn-banktransfer {
+  width: 100%;
+  padding: 14px;
+  border-radius: var(--radius);
+  font-weight: 700;
+  margin-top: 8px;
+  border: none;
+  transition: all var(--transition);
+  background-color: #6c757d;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.btn-banktransfer:hover {
+  background-color: #5a6268;
+  transform: translateY(-1px);
+}
+
+/* Bank Transfer Modal */
+.bank-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(2px);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+}
+
+.bank-modal.active {
+  display: flex;
+}
+
+.bank-modal-content {
+  background: var(--bg-page);
+  max-width: 500px;
+  width: 90%;
+  margin: 20px;
+  padding: 25px;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.bank-modal-content h3 {
+  color: var(--green-dark);
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.bank-modal-content input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.bank-modal-content input:focus {
+  outline: none;
+  border-color: var(--green-primary);
+}
+
+.bank-details {
+  background: #e8f5e9;
+  padding: 15px;
+  border-radius: var(--radius);
+  margin: 15px 0;
+}
+
+.bank-details ul {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+}
+
+.bank-details li {
+  padding: 5px 0;
+  font-size: 0.9rem;
+}
+
+.btn-confirm {
+  background: var(--green-primary);
+  color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: var(--radius);
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.btn-confirm:hover {
+  background: var(--green-dark);
+}
+
+.btn-cancel {
+  background: #ccc;
+  color: #333;
+  padding: 10px;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.btn-cancel:hover {
+  background: #bbb;
+}
+
+.bank-reference {
+  font-family: monospace;
+  background: #fff;
+  padding: 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: 1px;
+}
