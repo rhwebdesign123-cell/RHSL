@@ -88,7 +88,7 @@
         Checkout with Card (Stripe)
       </button>
       <div id="paypal-button-container" style="display: none;"></div>
-      <!-- Bank Transfer Button -->
+<!-- Bank Transfer Button -->
 <button class="btn-banktransfer" id="bank-transfer-btn" style="margin-top: 10px; width: 100%; background-color: #6c757d; color: white; padding: 12px; border: none; border-radius: 5px; cursor: pointer;">
   🏦 Pay by Bank Transfer
 </button>
@@ -99,107 +99,145 @@
     <h3>🏦 Bank Transfer</h3>
     <p>Please provide your delivery details:</p>
     
-    <form id="bank-transfer-details-form">
-      <input type="text" id="bt-fullname" placeholder="Full Name" required style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
-      <input type="text" id="bt-address" placeholder="Street Address" required style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
-      <input type="text" id="bt-city" placeholder="City/Town" required style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
-      <input type="text" id="bt-postcode" placeholder="Postcode" required style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
-      <input type="email" id="bt-email" placeholder="Email Address" required style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
-      <input type="tel" id="bt-phone" placeholder="Phone Number" required style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
-      
-      <button type="button" onclick="processBankTransfer()" style="background-color: #4CAF50; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; width: 100%;">
-        Confirm & Get Bank Details
-      </button>
-      <button type="button" onclick="closeBankTransferModal()" style="margin-top: 8px; background-color: #ccc; color: black; padding: 8px; border: none; border-radius: 5px; cursor: pointer; width: 100%;">
-        Cancel
-      </button>
-    </form>
+    <input type="text" id="bt-fullname" placeholder="Full Name" required style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
+    <input type="text" id="bt-address" placeholder="Street Address" required style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
+    <input type="text" id="bt-city" placeholder="City/Town" required style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
+    <input type="text" id="bt-postcode" placeholder="Postcode" required style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
+    <input type="email" id="bt-email" placeholder="Email Address" required style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
+    <input type="tel" id="bt-phone" placeholder="Phone Number" required style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
+    
+    <button type="button" id="bt-confirm-btn" style="background-color: #4CAF50; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; width: 100%;">
+      Confirm & Get Bank Details
+    </button>
+    <button type="button" id="bt-cancel-btn" style="margin-top: 8px; background-color: #ccc; color: black; padding: 8px; border: none; border-radius: 5px; cursor: pointer; width: 100%;">
+      Cancel
+    </button>
   </div>
 </div>
 
 <script>
-// Get modal element
-const bankModal = document.getElementById('bank-transfer-modal');
-
-// Open modal when button clicked
-document.getElementById('bank-transfer-btn').addEventListener('click', function() {
-  bankModal.style.display = 'flex';
-});
-
-// Close modal function
-function closeBankTransferModal() {
-  bankModal.style.display = 'none';
-}
-
-// Process bank transfer
-async function processBankTransfer() {
-  // Get values
-  const fullname = document.getElementById('bt-fullname').value;
-  const address = document.getElementById('bt-address').value;
-  const city = document.getElementById('bt-city').value;
-  const postcode = document.getElementById('bt-postcode').value;
-  const email = document.getElementById('bt-email').value;
-  const phone = document.getElementById('bt-phone').value;
+// Bank Transfer Modal Logic
+(function() {
+  const modal = document.getElementById('bank-transfer-modal');
+  const openBtn = document.getElementById('bank-transfer-btn');
+  const confirmBtn = document.getElementById('bt-confirm-btn');
+  const cancelBtn = document.getElementById('bt-cancel-btn');
   
-  // Validate
-  if (!fullname || !address || !city || !postcode || !email || !phone) {
-    alert('Please fill in all fields');
-    return;
-  }
-  
-  // Get cart items
-  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-  const total = localStorage.getItem('cartTotal') || '£0.00';
-  
-  if (cart.length === 0) {
-    alert('Your cart is empty');
-    closeBankTransferModal();
-    return;
-  }
-  
-  // Save order details
-  const orderData = {
-    customer: { fullname, address, city, postcode, email, phone },
-    cart: cart,
-    total: total,
-    date: new Date().toISOString(),
-    orderId: 'RHSL-' + Date.now()
-  };
-  localStorage.setItem('pendingBankOrder', JSON.stringify(orderData));
-  
-  // Try to send to backend (if available)
-  try {
-    await fetch('/api/bank-order', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(orderData)
+  // Open modal
+  if (openBtn) {
+    openBtn.addEventListener('click', () => {
+      modal.style.display = 'flex';
     });
-  } catch(e) {
-    console.log('Backend notification not available');
   }
   
-  // Show bank details (from your backend or fallback to email)
-  const modalContent = document.querySelector('#bank-transfer-modal > div');
-  modalContent.innerHTML = `
-    <h3>✅ Bank Transfer Details</h3>
-    <p>Thanks ${fullname}! Please send payment to:</p>
-    <ul style="margin: 15px 0;">
-      <li><strong>Bank:</strong> Your Bank Name</li>
-      <li><strong>Account Name:</strong> RH Sports & Leisure</li>
-      <li><strong>Sort Code:</strong> 00-00-00</li>
-      <li><strong>Account Number:</strong> 12345678</li>
-    </ul>
-    <p><strong>Reference:</strong> ${orderData.orderId}</p>
-    <p><strong>Amount:</strong> ${total}</p>
-    <p>⚠️ We'll ship your order once payment clears (1-2 days).</p>
-    <p>📧 A confirmation has been sent to <strong>${email}</strong></p>
-    <button onclick="closeBankTransferModal(); location.reload();" style="background-color: #4CAF50; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; width: 100%; margin-top: 10px;">
-      Close
-    </button>
-  `;
-}
+  // Close modal
+  function closeModal() {
+    modal.style.display = 'none';
+  }
+  
+  if (cancelBtn) {
+    cancelBtn.addEventListener('click', closeModal);
+  }
+  
+  // Process bank transfer
+  if (confirmBtn) {
+    confirmBtn.addEventListener('click', async () => {
+      // Get form values
+      const fullname = document.getElementById('bt-fullname').value.trim();
+      const address = document.getElementById('bt-address').value.trim();
+      const city = document.getElementById('bt-city').value.trim();
+      const postcode = document.getElementById('bt-postcode').value.trim();
+      const email = document.getElementById('bt-email').value.trim();
+      const phone = document.getElementById('bt-phone').value.trim();
+      
+      // Validate
+      if (!fullname || !address || !city || !postcode || !email || !phone) {
+        alert('Please fill in all fields');
+        return;
+      }
+      
+      // Get cart from localStorage (this is the key fix)
+      let cart = [];
+      const cartRaw = localStorage.getItem('cart');
+      console.log('Raw cart data:', cartRaw);
+      
+      if (cartRaw) {
+        try {
+          cart = JSON.parse(cartRaw);
+        } catch(e) {
+          console.error('Failed to parse cart:', e);
+          cart = [];
+        }
+      }
+      
+      // Get total from the page
+      const totalEl = document.getElementById('cart-total');
+      const total = totalEl ? totalEl.innerText : '£0.00';
+      
+      console.log('Cart items count:', cart.length);
+      console.log('Total:', total);
+      
+      if (!cart || cart.length === 0) {
+        alert('Your cart is empty. Please add items before checking out.');
+        return;
+      }
+      
+      // Create order
+      const orderData = {
+        customer: { fullname, address, city, postcode, email, phone },
+        cart: cart,
+        total: total,
+        date: new Date().toISOString(),
+        orderId: 'RHSL-' + Date.now()
+      };
+      
+      // Save to localStorage as backup
+      localStorage.setItem('pendingBankOrder', JSON.stringify(orderData));
+      
+      // Try to send to backend (optional - won't break if fails)
+      try {
+        await fetch('/api/bank-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(orderData)
+        });
+        console.log('Order sent to backend');
+      } catch(e) {
+        console.log('Backend not available, but order saved locally');
+      }
+      
+      // Show bank details in modal
+      const modalDiv = modal.querySelector('div');
+      modalDiv.innerHTML = `
+        <h3>✅ Bank Transfer Details</h3>
+        <p>Thanks ${fullname}! Please send payment to:</p>
+        <ul style="margin: 15px 0;">
+          <li><strong>Bank:</strong> [YOUR BANK NAME]</li>
+          <li><strong>Account Name:</strong> RH Sports & Leisure</li>
+          <li><strong>Sort Code:</strong> 00-00-00</li>
+          <li><strong>Account Number:</strong> 12345678</li>
+        </ul>
+        <p><strong>Reference:</strong> ${orderData.orderId}</p>
+        <p><strong>Amount:</strong> ${total}</p>
+        <p>⚠️ We'll ship your order once payment clears (1-2 days).</p>
+        <p>📧 We'll contact you at <strong>${email}</strong></p>
+        <button id="bt-close-modal" style="background-color: #4CAF50; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; width: 100%; margin-top: 10px;">
+          Close & Clear Cart
+        </button>
+      `;
+      
+      // Add close button handler
+      document.getElementById('bt-close-modal').addEventListener('click', () => {
+        // Clear cart
+        localStorage.removeItem('cart');
+        localStorage.removeItem('cartTotal');
+        // Reload page to refresh cart display
+        window.location.reload();
+      });
+    });
+  }
+})();
 </script>
-
 <script>
 async function getBankDetails() {
   // Get form values
