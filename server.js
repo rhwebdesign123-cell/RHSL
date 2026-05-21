@@ -1,4 +1,12 @@
 require('dotenv').config();
+
+// DEBUG: Check if bank env vars are loading
+console.log('=== ENVIRONMENT VARIABLES CHECK ===');
+console.log('BANK_NAME:', process.env.BANK_NAME || 'NOT SET');
+console.log('BANK_ACCOUNT_NAME:', process.env.BANK_ACCOUNT_NAME || 'NOT SET');
+console.log('BANK_SORT_CODE:', process.env.BANK_SORT_CODE || 'NOT SET');
+console.log('BANK_ACCOUNT_NUMBER:', process.env.BANK_ACCOUNT_NUMBER || 'NOT SET');
+console.log('====================================');
 const express = require('express');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const path = require('path');
